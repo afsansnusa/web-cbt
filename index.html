@@ -208,7 +208,10 @@
           height: 32px;
         }
 
-        #securecbt-root .exam-locked-zone header [class*="px-3.5"][class*="py-1.5"] {
+        #securecbt-root
+          .exam-locked-zone
+          header
+          [class*="px-3.5"][class*="py-1.5"] {
           padding: 7px 8px;
         }
 
@@ -216,7 +219,8 @@
           font-size: 14px;
         }
 
-        #securecbt-root [class*="flex-1"][class*="overflow-y-auto"][class*="p-4"][class*="md:p-6"] {
+        #securecbt-root
+          [class*="flex-1"][class*="overflow-y-auto"][class*="p-4"][class*="md:p-6"] {
           padding: 12px;
         }
 
@@ -225,7 +229,10 @@
           padding: 16px;
         }
 
-        #securecbt-root .exam-locked-zone [class*="lg:col-span-8"] [class*="text-base"][class*="md:text-lg"] {
+        #securecbt-root
+          .exam-locked-zone
+          [class*="lg:col-span-8"]
+          [class*="text-base"][class*="md:text-lg"] {
           font-size: 15px;
           line-height: 1.65;
         }
@@ -234,20 +241,31 @@
           min-height: 44px;
         }
 
-        #securecbt-root .exam-locked-zone [class*="lg:col-span-8"] [class*="p-4"][class*="rounded-2xl"][class*="border"] {
+        #securecbt-root
+          .exam-locked-zone
+          [class*="lg:col-span-8"]
+          [class*="p-4"][class*="rounded-2xl"][class*="border"] {
           padding: 12px;
         }
 
-        #securecbt-root .exam-locked-zone [class*="lg:col-span-8"] [class*="text-base"][class*="text-slate-800"] {
+        #securecbt-root
+          .exam-locked-zone
+          [class*="lg:col-span-8"]
+          [class*="text-base"][class*="text-slate-800"] {
           font-size: 14px;
         }
 
-        #securecbt-root .exam-locked-zone [class*="grid-cols-5"][class*="gap-2"] button {
+        #securecbt-root
+          .exam-locked-zone
+          [class*="grid-cols-5"][class*="gap-2"]
+          button {
           height: 42px;
         }
 
         /* Modals and compact forms */
-        #securecbt-root [class*="fixed"][class*="inset-0"][class*="p-4"] > [class*="rounded"] {
+        #securecbt-root
+          [class*="fixed"][class*="inset-0"][class*="p-4"]
+          > [class*="rounded"] {
           max-height: calc(100dvh - 24px);
         }
 
@@ -317,13 +335,8 @@
       const SCHOOL_LOGO_URL =
         "https://cdn.phototourl.com/anon/2026-11-23-3a712b7c-2517-4015-a95d-8136b23588b3.png";
 
-      const DEFAULT_AVATAR_URL = `data:image/svg+xml;utf8,${encodeURIComponent(`
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 150">
-        <rect width="120" height="150" fill="#E2E8F0"/>
-        <circle cx="60" cy="52" r="24" fill="#94A3B8"/>
-        <path d="M22 135 C22 102 98 102 98 135" fill="#94A3B8"/>
-      </svg>
-    `)}`;
+      const DEFAULT_AVATAR_URL =
+        "https://cdn.phototourl.com/anon/2026-11-23-3a712b7c-2517-4015-a95d-8136b23588b3.png";
 
       const supabase =
         !IS_PREVIEW && SUPABASE_URL !== "URL_SUPABASE_ANDA"
@@ -1385,9 +1398,18 @@
           input.value = normalized;
           const caret = normalized.length;
           input.setSelectionRange(caret, caret);
-          input.classList.toggle("border-emerald-500", state.preflight.tokenValid);
-          input.classList.toggle("text-emerald-700", state.preflight.tokenValid);
-          input.classList.toggle("border-slate-300", !state.preflight.tokenValid);
+          input.classList.toggle(
+            "border-emerald-500",
+            state.preflight.tokenValid,
+          );
+          input.classList.toggle(
+            "text-emerald-700",
+            state.preflight.tokenValid,
+          );
+          input.classList.toggle(
+            "border-slate-300",
+            !state.preflight.tokenValid,
+          );
           input.classList.toggle("text-slate-900", !state.preflight.tokenValid);
         }
 
