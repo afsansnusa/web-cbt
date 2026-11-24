@@ -133,6 +133,20 @@
           padding: 20px;
         }
 
+        #securecbt-root [data-token-status-row] {
+          align-items: stretch;
+          flex-direction: column;
+        }
+
+        #securecbt-root [data-token-status-row] [data-token-status] {
+          width: 100%;
+          min-height: 38px;
+          text-align: center;
+          align-items: center;
+          justify-content: center;
+          display: inline-flex;
+        }
+
         /* Dashboard and utility panels */
         #securecbt-root aside {
           display: none;
@@ -624,6 +638,8 @@
           browserOk: false,
           networkOk: false,
           fullscreenOk: false,
+          dndRequested: false,
+          dndAvailable: false,
           rulesAccepted: false,
           tokenInput: "",
           tokenValid: false,
@@ -1353,13 +1369,39 @@
       }
 
       window.verifyExamTokenInput = (val) => {
-        state.preflight.tokenInput = (val || "").toUpperCase().trim();
+        const normalized = (val || "")
+          .toUpperCase()
+          .replace(/\s/g, "")
+          .slice(0, 10);
+        state.preflight.tokenInput = normalized;
         const expected = (state.preflight.exam?.exam_token || "")
           .toUpperCase()
           .trim();
         state.preflight.tokenValid =
           expected !== "" && state.preflight.tokenInput === expected;
-        renderApp();
+
+        const input = document.querySelector("[data-exam-token-input]");
+        if (input) {
+          input.value = normalized;
+          const caret = normalized.length;
+          input.setSelectionRange(caret, caret);
+          input.classList.toggle("border-emerald-500", state.preflight.tokenValid);
+          input.classList.toggle("text-emerald-700", state.preflight.tokenValid);
+          input.classList.toggle("border-slate-300", !state.preflight.tokenValid);
+          input.classList.toggle("text-slate-900", !state.preflight.tokenValid);
+        }
+
+        const status = document.querySelector("[data-token-status]");
+        if (status) {
+          status.textContent = state.preflight.tokenValid
+            ? "TOKEN VALID"
+            : "BELUM VALID";
+          status.className =
+            "px-3.5 py-2.5 rounded-xl text-xs font-bold " +
+            (state.preflight.tokenValid
+              ? "bg-emerald-600 text-white"
+              : "bg-slate-200 text-slate-600");
+        }
       };
 
       async function runDeviceDiagnostic() {
@@ -1367,6 +1409,13 @@
           typeof document.hidden !== "undefined" &&
           typeof localStorage !== "undefined";
         state.preflight.networkOk = navigator.onLine;
+        try {
+          if ("wakeLock" in navigator) {
+            await navigator.wakeLock.request("screen");
+          }
+        } catch (err) {
+          // Wake Lock is optional on browsers that do not expose the API.
+        }
         try {
           if (
             !document.fullscreenElement &&
