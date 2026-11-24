@@ -134,17 +134,20 @@
         }
 
         #securecbt-root [data-token-status-row] {
-          align-items: stretch;
-          flex-direction: column;
+          align-items: center;
+          flex-direction: row;
         }
 
         #securecbt-root [data-token-status-row] [data-token-status] {
-          width: 100%;
+          width: auto;
           min-height: 38px;
           text-align: center;
           align-items: center;
           justify-content: center;
           display: inline-flex;
+          white-space: nowrap;
+          padding-left: 10px;
+          padding-right: 10px;
         }
 
         /* Dashboard and utility panels */
@@ -335,15 +338,8 @@
       const SCHOOL_LOGO_URL =
         "https://cdn.phototourl.com/anon/2026-11-23-3a712b7c-2517-4015-a95d-8136b23588b3.png";
 
-      const DEFAULT_AVATAR_URL =
-        "https://cdn.phototourl.com/anon/2026-11-23-3a712b7c-2517-4015-a95d-8136b23588b3.png";
-
-      const APP_LOGO_URL =
-        "https://cdn.phototourl.com/anon/2026-11-24-77254e3c-6dce-4ac7-9ea8-6c8b68e5e13d.png";
-
       const supabase =
-        !IS_PREVIEW &&
-        SUPABASE_URL !== "https://tjagagyvlvarflxvyxcg.supabase.co"
+        !IS_PREVIEW && SUPABASE_URL && SUPABASE_ANON_KEY
           ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
           : null;
 
@@ -1420,7 +1416,7 @@
         const status = document.querySelector("[data-token-status]");
         if (status) {
           status.textContent = state.preflight.tokenValid
-            ? "TOKEN VALID"
+            ? "VALID"
             : "BELUM VALID";
           status.className =
             "px-3.5 py-2.5 rounded-xl text-xs font-bold " +
@@ -1939,7 +1935,7 @@
         ${renderPreviewBanner()}
         <div class="flex-1 overflow-y-auto flex items-center justify-center p-4 md:p-8 bg-[#F3F6FB]">
           <div class="w-full max-w-4xl bg-white rounded-3xl shadow-soft border border-slate-200/80 overflow-hidden grid grid-cols-1 lg:grid-cols-12">
-            
+
             <!-- Kolom Kiri: Biru Solid Tanpa Gradasi & Logo Tanpa Border -->
             <div class="lg:col-span-5 bg-blue-600 p-8 md:p-9 text-white flex flex-col justify-between">
               <div>
@@ -3104,7 +3100,7 @@
         ${renderPreviewBanner()}
         <div class="flex-1 overflow-y-auto p-3 md:p-5 pb-24 md:pb-5">
           <div class="max-w-[1440px] mx-auto flex flex-col md:flex-row gap-5 min-h-full">
-            
+
             <!-- Sidebar Siswa dengan Logo Sekolah Tanpa Border -->
             <nav class="hidden md:flex flex-col justify-between w-20 lg:w-60 bg-blue-600 text-white rounded-3xl p-4 shrink-0 shadow-soft">
               <div>
@@ -3347,13 +3343,14 @@
               <label class="block text-xs font-bold uppercase tracking-wider text-blue-900 mb-1.5">
                 Masukkan Token Ujian (Dari Pengawas Ruang)
               </label>
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-2" data-token-status-row>
                 <input type="text" maxlength="10" value="${escapeHtml(tokenInput)}"
+                  data-exam-token-input
                   oninput="window.verifyExamTokenInput(this.value)"
                   placeholder="Contoh: CBT26A"
-                  class="flex-1 px-4 py-2.5 text-base font-extrabold tracking-widest uppercase bg-white border ${tokenValid ? "border-emerald-500 text-emerald-700" : "border-slate-300 text-slate-900"} rounded-xl focus:outline-none" />
-                <span class="px-3.5 py-2.5 rounded-xl text-xs font-bold ${tokenValid ? "bg-emerald-600 text-white" : "bg-slate-200 text-slate-600"}">
-                  ${tokenValid ? "TOKEN VALID" : "BELUM VALID"}
+                  class="min-w-0 flex-1 px-4 py-2.5 text-base font-extrabold tracking-widest uppercase bg-white border ${tokenValid ? "border-emerald-500 text-emerald-700" : "border-slate-300 text-slate-900"} rounded-xl focus:outline-none" />
+                <span data-token-status class="px-3.5 py-2.5 rounded-xl text-xs font-bold ${tokenValid ? "bg-emerald-600 text-white" : "bg-slate-200 text-slate-600"}">
+                  ${tokenValid ? "VALID" : "BELUM VALID"}
                 </span>
               </div>
               ${IS_PREVIEW ? `<p class="text-xs text-blue-700 mt-1.5">Petunjuk Mode Preview — Token untuk ujian ini adalah: <b>${escapeHtml(exam.exam_token)}</b></p>` : ""}
@@ -3444,7 +3441,7 @@
 
           <div class="flex-1 overflow-y-auto p-4 md:p-6">
             <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-5">
-              
+
               <div class="lg:col-span-8 bg-white rounded-2xl p-6 md:p-7 shadow-card border border-slate-200/80 flex flex-col justify-between min-h-[420px]">
                 <div>
                   <div class="flex items-center justify-between pb-4 mb-5 border-b border-slate-100">
